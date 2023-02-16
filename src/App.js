@@ -41,10 +41,7 @@ function App() {
         const singleMovie = response.data;
 
         setMovie(singleMovie);
-        // console.log(singleMovie.reviews)
         setReviews(singleMovie.reviewIds);
-        console.log(reviews);
-        
         
 
     } 
@@ -66,6 +63,7 @@ function App() {
           <Route path="/" element={<Layout/>}>
             <Route path="/" element={<Home movies={movies} />} ></Route>
             <Route path="/Trailer/:ytTrailerId" element={<Trailer/>}></Route>
+            {/* {console.log(reviews)} */}
             <Route path="/Reviews/:movieId" element ={<Reviews getMovieData = {getMovieData} movie={movie} reviews ={reviews} setReviews = {setReviews} />}></Route>
             {/* <Route path="*" element = {<NotFound/>}></Route> */}
           </Route>

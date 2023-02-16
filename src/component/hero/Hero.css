@@ -31,7 +31,12 @@
     width:100%;
 }
 .movie-title{
-    color:white;
+    color:yellow;
+    display: flex;
+    align-items: center;
+}
+.movie-imdb{
+    color: yellow;
     display: flex;
     align-items: center;
 }

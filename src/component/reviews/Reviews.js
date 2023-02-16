@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {useEffect,useState, useRef} from 'react';
 import api from '../../api/apiConfig';
 import {useParams} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
@@ -9,8 +9,11 @@ import React from 'react'
 const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
 
     const revText = useRef();
+    const revRating = useRef();
+
     let params = useParams();
     const movieId = params.movieId;
+    const [reviewCount, setReviewCount] = useState(reviews.length);
 
     useEffect(()=>{
         getMovieData(movieId);
@@ -20,17 +23,24 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         e.preventDefault();
 
         const rev = revText.current;
+        const revR = revRating.current;
 
         try
         {
-            const response = await api.post("/api/v1/reviews",{reviewBody:rev.value,imdbId:movieId});
+            const response = await api.post("/api/v1/reviews",{
+                reviewBody:rev.value,
+                rating:revR.value,
+                imdbId:movieId
+            });
 
-            const updatedReviews = [...reviews, {body:rev.value}];
-    
+            const updatedReviews = [...reviews, {body:rev.value, rating: revR.value}];
             rev.value = "";
-    
+            revR.value="";
             setReviews(updatedReviews);
-            console.log(reviews);
+            console.log(updatedReviews);
+            console.log(reviewCount);
+            setReviewCount(updatedReviews.length);
+            console.log(reviewCount);
         }
         catch(err)
         {
@@ -56,7 +66,7 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
                     <>
                         <Row>
                             <Col>
-                                <ReviewForm handleSubmit={addReview} revText={revText} labelText = "Write a Review?" />  
+                                <ReviewForm handleSubmit={addReview} revRating={revRating} revText={revText} labelText = "Write a Review?" />  
                             </Col>
                         </Row>
                         <Row>
